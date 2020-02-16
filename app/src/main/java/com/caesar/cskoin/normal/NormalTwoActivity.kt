@@ -25,5 +25,7 @@ class NormalTwoActivity : AppCompatActivity() {
         btnShow = findViewById(R.id.btn_show)//这边要注意,btn的初始化要在ViewData的调用之前,否则会报空指针.koin的注入是懒加载模式的,只有在调用对象的时候,才会实例化对象
         viewData.prinId()
         CSKoinLog.I("这个是直接获取按钮id" + btnShow?.id.toString())
+
+        CompontData().priInfo()//这边直接new对象,看里面注入的对象信息
     }
 }
