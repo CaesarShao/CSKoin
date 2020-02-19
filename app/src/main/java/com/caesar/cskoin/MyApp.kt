@@ -11,6 +11,7 @@ import com.caesar.cskoin.normal.NormalData
 import com.caesar.cskoin.normal.ViewData
 import com.caesar.cskoin.normal.WeatherData
 import com.caesar.cskoin.other.ProData
+import com.caesar.cskoin.other.TimeData
 import com.caesar.cskoin.scope.ScopeCurentActivity
 import com.caesar.cskoin.scope.ScopeData
 import com.caesar.cskoin.scope.ScopeTypeTwo
@@ -20,6 +21,7 @@ import com.caesarlib.koin.libModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -34,6 +36,7 @@ class MyApp : Application() {
 //            fragmentFactory() //暂时2.1.0-alpha-3这个版本之前有问题,引用不到,估计作者还在调试,文档上的用法就是这样的
             modules(appModule, libModule.theLibModule)//这里面传各种被注入的模块对象,支持多模块注入,在2.0.1之后才支持vararg调用
         }
+        loadKoinModules(otherModule)
     }
 
     val appModule = module {
@@ -80,13 +83,14 @@ class MyApp : Application() {
         factory {
             ModuleData(get())
         }
-        scope(named("myScope")) {//scope类型的注入方式一,通过标签的方式
+        scope(named("myScope")) {
+            //scope类型的注入方式一,通过标签的方式
             scoped {
                 ScopeData()
             }
         }
-        scope(named<ScopeCurentActivity>()){
-            scoped{
+        scope(named<ScopeCurentActivity>()) {
+            scoped {
                 ScopeTypeTwo()
             }
         }
@@ -96,11 +100,18 @@ class MyApp : Application() {
 
 //        fragment { MyFragment("张三") }//暂时2.1.0-alpha-3这个版本之前有问题,引用不到,估计作者还在调试,文档上的用法就是这样的
 
-        scope(named<FragActivity>()){
+        scope(named<FragActivity>()) {
             scoped {
                 MyFragment("张三")
             }
         }
+    }
+
+    val otherModule = module {
+        factory {
+            TimeData(get())
+        }
+
     }
 
 }

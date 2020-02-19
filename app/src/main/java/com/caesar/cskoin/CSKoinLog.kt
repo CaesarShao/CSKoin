@@ -5,7 +5,7 @@ import org.koin.core.scope.ScopeID
 
 object CSKoinLog {
     fun I(str: String) {
-        Log.i("caesarLogkoin", str)
+        Log.i("CaesarLogkoin", str)
     }
     var scopeId :ScopeID = ""//保存Scopeid
 }
